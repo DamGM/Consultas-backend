@@ -12,7 +12,7 @@ const consultationRoutes = require('./routes/consultas');
 const paqueteConsultasRoutes = require('./routes/paqueteConsultas');
 const pagosRoutes = require('./routes/pagos');
 
-app.use('/api/users', userRoutes);
+app.use('/api/user', userRoutes);
 app.use('/api/consultas', consultationRoutes);
 app.use('/api/paqueteConsultas',  paqueteConsultasRoutes);
 app.use('/api/pagos', pagosRoutes);

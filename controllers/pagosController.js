@@ -1,6 +1,6 @@
-const Payment = require('../models/pagos');
+const Pago = require('../models/pagos');
 
-const createPago = async (req, res) => {
+async function createPago(req, res) {
   const { paqueteId, amount } = req.body;
 
   const newPago = new Pago({
@@ -11,7 +11,7 @@ const createPago = async (req, res) => {
 
   const createdPago = await newPago.save();
   res.status(201).json(createdPago);
-};
+}
 
 const getPagos = async (req, res) => {
   const pagos = await Pago.find({ user: req.user._id }).populate('paquete');

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { createConsulta, getConsultas } = require('../controllers/consultasController');
+const { createConsulta, getConsultas } = require('../controllers/consultasController').default;
 
 router.post('/', createConsulta);
 router.get('/', getConsultas);

@@ -30,11 +30,11 @@ app.post('/create-event', async (req, res) => {
     description,
     start: {
       dateTime: start,
-      timeZone: timeZone || 'UTC',
+      timeZone: timeZone || 'UTC+2',
     },
     end: {
       dateTime: end,
-      timeZone: timeZone || 'UTC',
+      timeZone: timeZone || 'UTC+2',
     },
   };
 

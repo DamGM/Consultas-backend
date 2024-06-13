@@ -1,9 +1,9 @@
-const Consulta = require('../models/consultas');
+import { create, find } from '../models/consultas';
 
 const createConsulta = async (req, res) => {
   const { userId, date, zoomLink } = req.body;
 
-  const consulta = await Consulta.create({
+  const consulta = await create({
     user: userId,
     date,
     zoomLink,
@@ -17,7 +17,7 @@ const createConsulta = async (req, res) => {
 };
 
 const getConsultas = async (req, res) => {
-  const consultas = await Consulta.find({ user: req.user._id });
+  const consultas = await find({ user: req.user._id });
 
   if (consultas) {
     res.json(consultas);
@@ -26,4 +26,4 @@ const getConsultas = async (req, res) => {
   }
 };
 
-module.exports = { createConsulta, getConsultas };
+export default { createConsulta, getConsultas };
