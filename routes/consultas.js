@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { createConsulta, getConsultas } = require('../controllers/consultasController').default;
+const { createConsulta, getConsultas } = require('../controllers/consultasController');
 
-router.post('/', createConsulta);
-router.get('/', getConsultas);
+router.post('/consultas', createConsulta);
+router.get('/consultas', getConsultas);
 
 module.exports = router;

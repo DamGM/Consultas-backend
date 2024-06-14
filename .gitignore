@@ -1,6 +1,6 @@
 .env
 .DS_Store
-.credencials.json
+credentials.json
 
 
 ## Ignore Visual Studio temporary files, build results, and

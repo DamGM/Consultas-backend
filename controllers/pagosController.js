@@ -1,4 +1,4 @@
-const Pago = require('../models/pagos');
+const Pago = require( '../models/pagos');
 
 async function createPago(req, res) {
   const { paqueteId, amount } = req.body;
@@ -14,7 +14,7 @@ async function createPago(req, res) {
 }
 
 const getPagos = async (req, res) => {
-  const pagos = await Pago.find({ user: req.user._id }).populate('paquete');
+  const pagos = await find({ user: req.user._id }).populate('paquete');
   res.json(pagos);
 };
 

@@ -1,4 +1,4 @@
-const Paquete = require('../models/paquete');
+const Paquete = require ('../models/paquete');
 
 const getPaquetes = async (req, res) => {
   const paquetes = await Paquete.find({});
@@ -19,4 +19,4 @@ const createPaquete = async (req, res) => {
   res.status(201).json(createdPaquete);
 };
 
-module.exports = { getPaquetes, createPaquete };
+module.exports = {  getPaquetes, createPaquete };

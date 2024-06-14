@@ -1,4 +1,4 @@
-import { create, find } from '../models/consultas';
+const Consulta = require('../models/consultas');
 
 const createConsulta = async (req, res) => {
   const { userId, date, zoomLink } = req.body;
@@ -26,4 +26,4 @@ const getConsultas = async (req, res) => {
   }
 };
 
-export default { createConsulta, getConsultas };
+module.exports = { createConsulta, getConsultas };

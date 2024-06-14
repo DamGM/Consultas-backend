@@ -23,5 +23,5 @@ const ConsultaSchema = new mongoose.Schema({
   timestamps: true,
 });
 
-const Consultas = mongoose.model('Consulta', ConsultaSchema);
+const Consulta = mongoose.model('Consulta', ConsultaSchema);
 module.exports = Consulta;
