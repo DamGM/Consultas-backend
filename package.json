@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +20,8 @@
     "googleapis": "^105.0.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.4.1",
+    "passport": "^0.7.0",
+    "passport-google-oauth": "^2.0.0",
     "path": "^0.12.7"
   }
 }

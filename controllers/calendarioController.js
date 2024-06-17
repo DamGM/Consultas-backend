@@ -5,8 +5,8 @@ const EventoCalendario = require('../models/calendario');
 
 
 const SCOPES = ['https://www.googleapis.com/auth/calendar'];
-const credentials = JSON.parse(fs.readFileSync(path.join(__filename, '../credentials.json')));
-const { client_secret, client_id, redirect_uris } = credentials.installed;
+const credentials = JSON.parse(fs.readFileSync(path.join(__dirname, '../credentials.json')));
+const { client_secret, client_id, redirect_uris } = credentials.web;
 
 const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
 

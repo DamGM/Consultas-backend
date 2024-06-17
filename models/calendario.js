@@ -1,14 +1,11 @@
 const mongoose = require('mongoose');
 
-const eventoCalendarioSchema = new mongoose.Schema({
-  summary: { type: String, required: true },
-  description: { type: String, required: true },
-  start: { type: Date, required: true },
-  end: { type: Date, required: true },
-  timeZone: { type: String, default: 'UTC+2' },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-}, {
-  timestamps: true,
+const citaSchema = new mongoose.Schema({
+    date: { type: Date, required: true },
+    duration: { type: Number, required: true, default: 60 }, // duración en minutos
+    reserved: { type: Boolean, default: false }
 });
 
-module.exports = mongoose.model('EventoCalendario', eventoCalendarioSchema);
+const cita = mongoose.model('cita', citaSchema);
+
+module.exports = cita;
