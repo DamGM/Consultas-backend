@@ -16,10 +16,12 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "express-session": "^1.18.0",
     "fs": "^0.0.1-security",
     "googleapis": "^105.0.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.4.1",
+    "mongodb": "^6.7.0",
+    "mongoose": "^8.4.3",
     "passport": "^0.7.0",
     "passport-google-oauth": "^2.0.0",
     "path": "^0.12.7"

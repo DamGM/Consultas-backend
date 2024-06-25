@@ -6,20 +6,22 @@ const Consulta = require('../models/consultas');
 
 // Registrar un nuevo usuario
 const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
-
+  const { name, email, password, role } = req.body;
+ 
+  
   // Verificar si el usuario ya existe
-  const userExists = await findOne({ email });
+  const userExists = await User.findOne({ email });
   if (userExists) {
     return res.status(400).json({ message: 'Yá existe este usuario' });
   }
 
   // Crear el nuevo usuario
-  const hashedPassword = await hash(password, 8);
+  const hashedPassword = await bcrypt.hash(password, 8);
   const user = new User({
     name,
     email,
     password: hashedPassword,
+    role,
   });
 
   await user.save();
@@ -32,20 +34,20 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   // Verificar el usuario
-  const user = await findOne({ email });
+  const user = await User.findOne({ email });
   if (!user || !(await compare(password, user.password))) {
     return res.status(401).json({ message: 'Email o contraseña erroneo' });
   }
 
   // Crear el token JWT
-  const token = sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+  const token = jwt.sign({ id: user._id, email: user.email, isAdmin: user.isAdmin }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
   res.json({ token });
 };
 
 // Obtener perfil de usuario
 const getUserProfile = async (req, res) => {
-  const user = await findById(req.user.id).select('-password');
+  const user = await User.findById(req.user.id).select('-password');
   if (user) {
     res.json(user);
   } else {
@@ -55,7 +57,7 @@ const getUserProfile = async (req, res) => {
 
 // Actualizar perfil de usuario
 const updateUserProfile = async (req, res) => {
-  const user = await findById(req.user.id);
+  const user = await User.findById(req.user.id);
 
   if (user) {
     user.name = req.body.name || user.name;

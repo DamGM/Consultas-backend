@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const Role = require('./role');
+
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -20,6 +22,9 @@ const UserSchema = new mongoose.Schema({
     unique: true,
     sparse: true, 
   },
+  role: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Role' },
   isAdmin: {
     type: Boolean,
     default: false,

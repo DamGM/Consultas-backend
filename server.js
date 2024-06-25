@@ -8,12 +8,16 @@ dotenv.config();
 
 const JWT_SECRET = 'SECRET_KEY';
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin:process.env.CLIENT_URL,
+  methods:"GET,POST,PUT,DELETE",
+  credentials:true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-const passport = require('./config/passport'); 
+const passport = require ('./config/passport');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const consultaRoutes = require('./routes/consultas');
@@ -23,7 +27,7 @@ const googleRoutes = require('./routes/calendar');
 
 // Configurar sesiones
 app.use(session({
-  secret: 'SECRET_KEY',
+  secret: process.env.JWT_SECRET,
   resave: false,
   saveUninitialized: false
 }));
@@ -39,13 +43,13 @@ app.use('/api/paqueteConsultas',  paqueteConsultasRoutes);
 app.use('/api/pagos', pagosRoutes);
 app.use('/api/google', googleRoutes);
 
+app.get("/", (req,res) => {
+  res.send('<a href="/auth/gooogle">Autentificación con Google</a>')
+});
+
 const PORT = process.env.PORT || 8080;
 
-mongoose.connect(process.env.MONGO_URI, { 
-  useNewUrlParser: true, 
-  useUnifiedTopology: true,
-
-})
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connectado'))
   .catch(err => console.log(err));
 
