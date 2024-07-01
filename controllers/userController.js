@@ -29,20 +29,43 @@ const registerUser = async (req, res) => {
   res.status(201).json({ message: 'Usuario registrado' });
 };
 
+
 // Iniciar sesión de usuario
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
+  console.log('intento de login');
 
-  // Verificar el usuario
-  const user = await User.findOne({ email });
-  if (!user || !(await compare(password, user.password))) {
-    return res.status(401).json({ message: 'Email o contraseña erroneo' });
-  }
+  try {
+    // Verificar el usuario
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      console.log('Usuario no encontrado');
+    } else {
+      console.log('Usuario encontrado:', user);
+    }
+
+    const isPasswordValid = user ? await bcrypt.compare(password, user.password) : false;
+
+    if (!user || !isPasswordValid) {
+      console.log('email o password erroneo');
+      return res.status(401).json({ message: 'Email o contraseña erroneo' });
+    }
 
   // Crear el token JWT
-  const token = jwt.sign({ id: user._id, email: user.email, isAdmin: user.isAdmin }, process.env.JWT_SECRET, { expiresIn: '1h' });
+  const token = jwt.sign({ 
+    id: user._id, 
+    email: user.email, 
+    isAdmin: user.isAdmin },
+    process.env.JWT_SECRET, 
+    { expiresIn: '1h' }
+    );
 
   res.json({ token });
+} catch (error) {
+  console.error('Error al iniciar sesión:', error);
+  res.status(500).json({ message: 'Error al iniciar sesión. Por favor, inténtalo de nuevo más tarde.' });
+}
 };
 
 // Obtener perfil de usuario
@@ -64,7 +87,7 @@ const updateUserProfile = async (req, res) => {
     user.email = req.body.email || user.email;
 
     if (req.body.password) {
-      user.password = await hash(req.body.password, 8);
+      user.password = await bcrypt.hash(req.body.password, 8);
     }
 
     const updatedUser = await user.save();

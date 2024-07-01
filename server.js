@@ -8,6 +8,7 @@ dotenv.config();
 
 const JWT_SECRET = 'SECRET_KEY';
 const app = express();
+app.use(bodyParser.json());
 app.use(cors({
   origin:process.env.CLIENT_URL,
   methods:"GET,POST,PUT,DELETE",
@@ -35,17 +36,13 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/auth', authRoutes);
+app.use('/api/v1/auth', authRoutes);
 app.use('/api/users', userRoutes);
 
 app.use('/api/consultas', consultaRoutes);
 app.use('/api/paqueteConsultas',  paqueteConsultasRoutes);
 app.use('/api/pagos', pagosRoutes);
-app.use('/api/google', googleRoutes);
-
-app.get("/", (req,res) => {
-  res.send('<a href="/auth/gooogle">Autentificación con Google</a>')
-});
+app.use('/api/calendario', googleRoutes);
 
 const PORT = process.env.PORT || 8080;
 

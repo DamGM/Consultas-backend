@@ -1,9 +1,29 @@
 const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require('../models/user'); 
 const fs = require('fs');
 const path = require('path');
 
+
+passport.use(new LocalStrategy({
+  usernameField: 'email',
+  passwordField: 'password'
+}, async (email, password, done) => {
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return done(null, false, { message: 'Email no encontrado' });
+    }
+    const isMatch = await user.comparePassword(password); // Asegúrate de tener un método para comparar contraseñas
+    if (!isMatch) {
+      return done(null, false, { message: 'Contraseña incorrecta' });
+    }
+    return done(null, user);
+  } catch (error) {
+    return done(error);
+  }
+}));
 
 // Credenciales de Google
 
