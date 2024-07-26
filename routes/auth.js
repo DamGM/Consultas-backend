@@ -17,7 +17,7 @@ router.get('/google/callback',
   failureRedirect:process.env.CLIENT_URL + "/Acceder"
 }))
 
-router.get("/auth/login/sucess",async(req,res)=>{
+router.get("/auth/login",async(req,res)=>{
 
   if(req.user){
       res.status(200).json({message:"Usuario logeado",user:req.user})

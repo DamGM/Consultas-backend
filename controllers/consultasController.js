@@ -17,12 +17,15 @@ const createConsulta = async (req, res) => {
 };
 
 const getConsultas = async (req, res) => {
-  const consultas = await find({ user: req.user._id });
-
-  if (consultas) {
+  try {
+    const consultas = await Consulta.find()
+      .populate('user')  
+      .populate('date') 
+      .exec();
+    
     res.json(consultas);
-  } else {
-    res.status(404).json({ message: 'Consulta no encontrada' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener consultas', error });
   }
 };
 

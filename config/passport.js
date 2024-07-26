@@ -39,19 +39,18 @@ passport.use(new GoogleStrategy({
   callbackURL: GOOGLE_CALLBACK_URL,
   passReqToCallback:true
 },
-async (req, accessToken, refreshToken, profile, cb) => { 
+async ( accessToken, refreshToken, profile, cb) => { 
   const { id, displayName, emails} = profile;
   const email = emails[0].value;
 
   try {
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ googleId: profile.id });
 
     if (!user) {
       user = new User({
         name: displayName,
         email: email,
         googleId: id,
-        password: '', 
       });
       await user.save();
     }

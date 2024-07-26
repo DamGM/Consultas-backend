@@ -6,9 +6,8 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const JWT_SECRET = 'SECRET_KEY';
 const app = express();
-app.use(bodyParser.json());
+
 app.use(cors({
   origin:process.env.CLIENT_URL,
   methods:"GET,POST,PUT,DELETE",
@@ -16,7 +15,9 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.get("/",(req,res) => {
+    res.send("API funcionando")
+})
 
 const passport = require ('./config/passport');
 const authRoutes = require('./routes/auth');
@@ -24,7 +25,7 @@ const userRoutes = require('./routes/user');
 const consultaRoutes = require('./routes/consultas');
 const paqueteConsultasRoutes = require('./routes/paqueteConsultas');
 const pagosRoutes = require('./routes/pagos');
-const googleRoutes = require('./routes/calendar');
+const calendarioRoutes = require('./routes/calendar');
 
 // Configurar sesiones
 app.use(session({
@@ -36,13 +37,19 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use((req, res, next) => {
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+  res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+  next();
+});
+
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/users', userRoutes);
 
 app.use('/api/consultas', consultaRoutes);
 app.use('/api/paqueteConsultas',  paqueteConsultasRoutes);
 app.use('/api/pagos', pagosRoutes);
-app.use('/api/calendario', googleRoutes);
+app.use('/api/calendario',calendarioRoutes);
 
 const PORT = process.env.PORT || 8080;
 

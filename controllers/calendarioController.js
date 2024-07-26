@@ -1,7 +1,7 @@
 const { google } = require('googleapis');
 const fs = require('fs').promises;
 const path = require('path');
-const { OAuth2Client } = require('google-auth-library');
+const { oAuth2Client } = require('google-auth-library');
 const EventoCalendario = require('../models/calendario');
 
 
@@ -9,7 +9,7 @@ const SCOPES = ['https://www.googleapis.com/auth/calendar'];
 const credentials = JSON.parse(fs.readFileSync(path.join(__dirname, '../credentials.json')));
 const { client_secret, client_id, redirect_uris } = credentials.web;
 
-const OAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
+const oAuth2Client = new google.auth.oAuth2(client_id, client_secret, redirect_uris[0]);
 
 const authGoogle = (req, res) => {
   const authUrl = oAuth2Client.generateAuthUrl({
